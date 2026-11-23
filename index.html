@@ -3,92 +3,183 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Mon Dashboard & Tâches 🚀</title>
+    <title>Smart Dashboard Visual 🚀</title>
     <link rel="stylesheet" href="style.css">
-    <!-- Police moderne Google Fonts -->
     <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;700;800&display=swap" rel="stylesheet">
 </head>
-<body>    
-    <!--sert a annoncer le dashboard et les taches -->
-
+<body>
 
     <div class="app-container">
-        
-       
-        <header>
-            <div>
-                <h1>Mon Dashboard ⚡</h1>
-                <p id="current-date" class="date-text">Lundi 19 Octobre</p>
-            </div>
-            <div class="progress-box">
-                <div class="progress-info">
-                    <span>Progression du jour</span>
-                    <strong id="progress-percent">0%</strong>
+
+        <!-- Bannière Photo Hero -->
+        <div class="hero-banner">
+            <img src="https://images.unsplash.com/photo-1498050108023-c5249f4df085?q=80&w=1400&auto=format&fit=crop" alt="Espace de travail moderne" class="hero-bg">
+            <div class="hero-overlay"></div>
+
+            <div class="hero-content">
+                <div>
+                    <span class="hero-pill">✨ Workspace Personnel</span>
+                    <h1>Smart Dashboard ⚡</h1>
+                    <p id="current-date" class="date-text"></p>
                 </div>
-                <div class="progress-bar-bg">
-                    <div id="progress-bar" class="progress-bar-fill"></div>
+
+                <div class="progress-box">
+                    <div class="progress-info">
+                        <span>Progression du jour</span>
+                        <strong id="progress-percent">0%</strong>
+                    </div>
+                    <div class="progress-bar-bg">
+                        <div id="progress-bar" class="progress-bar-fill"></div>
+                    </div>
                 </div>
-            </div>
-    </header>
- <!--sert a pouvoir voir la progression de la journée avec le % de reussite -->
-        <!-- Formulaire pour ajouter une tâche -->
-        <section class="add-task-section">
-            <h2>Ajouter une nouvelle tâche</h2>
-            <form id="task-form">
-                <input type="text" id="task-input" placeholder="Que dois-tu faire aujourd'hui ?" required>
-                
-                <div class="form-row">
-                    <select id="task-category">
-                        <option value="📚 Cours">📚 Cours</option>
-                        <option value="💻 Code">💻 Code</option>
-                        <option value="🎯 Perso">🎯 Perso</option>
-                    </select>
-<!--divise les taches en 3 catégories en fonction de la catégorie-->
-                    <select id="task-priority">
-                        <option value="Basse">🟢 Basse</option>
-                        <option value="Moyenne" selected>🟡 Moyenne</option>
-                        <option value="Haute">🔴 Haute</option>
-                    </select>
-<!--divise les taches en 3 catégories en fonction du niveau d'importance -->
-                    <button type="submit" class="add-btn">+ Ajouter</button>
-                </div>
-            </form>
-        </section>
-<!--ajouter ne tache -->
-        <!-- Statistiques rapides -->
-        <div class="stats-row">
-            <div class="stat-card">
-                <span class="stat-num" id="total-tasks">0</span>
-                <span class="stat-label">Total Tâches</span>
-            </div>
-            <div class="stat-card">
-                <span class="stat-num" id="completed-tasks">0</span>
-                <span class="stat-label">Terminées</span>
-            </div>
-            <div class="stat-card">
-                <span class="stat-num" id="pending-tasks">0</span>
-                <span class="stat-label">En attente</span>
             </div>
         </div>
 
-        <!-- Liste des Tâches -->
-        <section class="tasks-section">
-            <h2>Mes Tâches</h2>
-            <ul id="tasks-list" class="tasks-list">
-                
-            </ul>
-        </section>
+        <div class="main-body">
 
+            <!-- Cartes visuelles d'ambiance & raccourcis -->
+            <div class="mood-cards">
+                <div class="mood-card" onclick="filterFromCard('💻 Code')">
+                    <img src="https://images.unsplash.com/photo-1555066931-4365d14bab8c?q=80&w=700&auto=format&fit=crop" alt="Code">
+                    <div class="mood-overlay">
+                        <span>💻 Focus Code</span>
+                        <small>Voir les tâches dev</small>
+                    </div>
+                </div>
+
+                <div class="mood-card" onclick="filterFromCard('📚 Cours')">
+                    <img src="https://images.unsplash.com/photo-1456513080510-7bf3a84b82f8?q=80&w=700&auto=format&fit=crop" alt="Cours">
+                    <div class="mood-overlay">
+                        <span>📚 Études & Cours</span>
+                        <small>Voir les révisions</small>
+                    </div>
+                </div>
+
+                <div class="mood-card" onclick="filterFromCard('🧠 Mindset')">
+                    <img src="https://images.unsplash.com/photo-1506126613408-eca07ce68773?q=80&w=700&auto=format&fit=crop" alt="Mindset">
+                    <div class="mood-overlay">
+                        <span>🧠 Énergie & Pause</span>
+                        <small>Voir le bien-être</small>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Encart Conseil -->
+            <div class="tip-banner">
+                <div class="tip-left">
+                    <img src="https://images.unsplash.com/photo-1516321318423-f06f85e504b3?q=80&w=300&auto=format&fit=crop" alt="Conseil" class="tip-thumb">
+                    <div>
+                        <span class="tip-label">💡 Conseil du moment</span>
+                        <p id="tip-text">Limite-toi à 3 tâches prioritaires aujourd'hui pour garder l'esprit clair.</p>
+                    </div>
+                </div>
+                <button type="button" class="ghost-btn" onclick="nextTip()">Autre conseil</button>
+            </div>
+
+            <!-- Formulaire d'ajout -->
+            <section class="add-task-section">
+                <div class="section-header">
+                    <h2>Ajouter une tâche</h2>
+                    <button type="button" class="idea-btn" onclick="loadSmartIdeas()">✨ Charger des idées surprenantes</button>
+                </div>
+
+                <form id="task-form">
+                    <input type="text" id="task-input" placeholder="Ex: Tester mon site avec un texte trop long..." required>
+
+                    <div class="form-row">
+                        <select id="task-category">
+                            <option value="📚 Cours">📚 Cours</option>
+                            <option value="💻 Code">💻 Code</option>
+                            <option value="🎯 Perso">🎯 Perso</option>
+                            <option value="🧠 Mindset">🧠 Mindset</option>
+                        </select>
+
+                        <select id="task-priority">
+                            <option value="Basse">🟢 Basse</option>
+                            <option value="Moyenne" selected>🟡 Moyenne</option>
+                            <option value="Haute">🔴 Haute</option>
+                        </select>
+
+                        <button type="submit" class="add-btn">+ Ajouter</button>
+                    </div>
+                </form>
+            </section>
+
+            <!-- Statistiques -->
+            <div class="stats-row">
+                <div class="stat-card stat-purple">
+                    <span class="stat-num" id="total-tasks">0</span>
+                    <span class="stat-label">Total Tâches</span>
+                </div>
+                <div class="stat-card stat-emerald">
+                    <span class="stat-num" id="completed-tasks">0</span>
+                    <span class="stat-label">Terminées</span>
+                </div>
+                <div class="stat-card stat-amber">
+                    <span class="stat-num" id="pending-tasks">0</span>
+                    <span class="stat-label">À faire</span>
+                </div>
+            </div>
+
+            <!-- Filtres + Nettoyage -->
+            <div class="toolbar">
+                <div class="filters" id="filters">
+                    <button type="button" class="filter-btn active" data-filter="all">Toutes</button>
+                    <button type="button" class="filter-btn" data-filter="active">À faire</button>
+                    <button type="button" class="filter-btn" data-filter="completed">Terminées</button>
+                    <button type="button" class="filter-btn" data-filter="💻 Code">💻 Code</button>
+                    <button type="button" class="filter-btn" data-filter="📚 Cours">📚 Cours</button>
+                    <button type="button" class="filter-btn" data-filter="🧠 Mindset">🧠 Mindset</button>
+                </div>
+
+                <button type="button" class="clear-btn" onclick="clearCompleted()">🧹 Nettoyer terminées</button>
+            </div>
+
+            <!-- Liste des tâches -->
+            <section class="tasks-section">
+                <ul id="tasks-list" class="tasks-list"></ul>
+            </section>
+
+        </div>
     </div>
-<!-- sert a afficher les taches et- la date du jour-->
-    <!-- Script JavaScript interactif avec Sauvegarde Automatique -->
+
     <script>
-        
         const options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
         document.getElementById('current-date').innerText = new Date().toLocaleDateString('fr-FR', options);
- <!--affiche la date -->
-       
-        let tasks = JSON.parse(localStorage.getItem('my_tasks')) || [];
+
+        // Image associée automatiquement à chaque catégorie
+        const categoryImages = {
+            "💻 Code": "https://images.unsplash.com/photo-1555066931-4365d14bab8c?q=80&w=200&auto=format&fit=crop",
+            "📚 Cours": "https://images.unsplash.com/photo-1456513080510-7bf3a84b82f8?q=80&w=200&auto=format&fit=crop",
+            "🎯 Perso": "https://images.unsplash.com/photo-1484480974693-6ca0a78fb36b?q=80&w=200&auto=format&fit=crop",
+            "🧠 Mindset": "https://images.unsplash.com/photo-1506126613408-eca07ce68773?q=80&w=200&auto=format&fit=crop"
+        };
+
+        const tips = [
+            "Limite-toi à 3 tâches prioritaires aujourd'hui pour garder l'esprit clair.",
+            "Formule des actions concrètes : 'Créer le bouton' vaut mieux que 'Avancer sur le site'.",
+            "Essaie de casser ton propre code (champ vide, clic rapide, petit écran) pour repérer les bugs.",
+            "Fais une vraie pause de 10 minutes loin des écrans quand tu bloques sur un problème.",
+            "Prépare la toute première micro-tâche de demain avant de fermer ton ordinateur."
+        ];
+        let tipIndex = 0;
+
+        function nextTip() {
+            tipIndex = (tipIndex + 1) % tips.length;
+            document.getElementById('tip-text').innerText = tips[tipIndex];
+        }
+
+        const surpriseIdeas = [
+            { title: "Relire un ancien code et simplifier une partie", category: "💻 Code", priority: "Moyenne" },
+            { title: "Noter 1 bug résolu + ce qui l'a causé", category: "💻 Code", priority: "Haute" },
+            { title: "Tester mon site avec un texte très long et un champ vide", category: "💻 Code", priority: "Moyenne" },
+            { title: "Faire un 'brain dump' de tout ce qui traîne dans ma tête", category: "🧠 Mindset", priority: "Haute" },
+            { title: "Prendre 10 min sans écran (eau, air frais, étirements)", category: "🧠 Mindset", priority: "Basse" },
+            { title: "Écrire la 1re micro-tâche de demain avant de quitter", category: "🎯 Perso", priority: "Moyenne" }
+        ];
+
+        let tasks = JSON.parse(localStorage.getItem('smart_dashboard_tasks')) || [];
+        let currentFilter = 'all';
 
         const taskForm = document.getElementById('task-form');
         const taskInput = document.getElementById('task-input');
@@ -96,67 +187,124 @@
         const taskPriority = document.getElementById('task-priority');
         const tasksList = document.getElementById('tasks-list');
 
-        
+        document.querySelectorAll('.filter-btn').forEach(btn => {
+            btn.addEventListener('click', () => {
+                setActiveFilter(btn.dataset.filter);
+            });
+        });
+
+        function setActiveFilter(filterValue) {
+            currentFilter = filterValue;
+            document.querySelectorAll('.filter-btn').forEach(b => {
+                b.classList.toggle('active', b.dataset.filter === filterValue);
+            });
+            renderTasks();
+        }
+
+        function filterFromCard(category) {
+            const next = currentFilter === category ? 'all' : category;
+            setActiveFilter(next);
+        }
+
         renderTasks();
 
-        
         taskForm.addEventListener('submit', (e) => {
             e.preventDefault();
-            const newTask = {
+            const title = taskInput.value.trim();
+            if (!title) return;
+
+            tasks.unshift({
                 id: Date.now(),
-                title: taskInput.value.trim(),
+                title,
                 category: taskCategory.value,
                 priority: taskPriority.value,
                 completed: false
-            };
+            });
 
-            tasks.push(newTask);
             saveAndRender();
             taskInput.value = '';
+            taskInput.focus();
         });
 
-        
-        function toggleTask(id) {
-            tasks = tasks.map(task => {
-                if (task.id === id) task.completed = !task.completed;
-                return task;
-            });
+        function loadSmartIdeas() {
+            const existingTitles = new Set(tasks.map(t => t.title));
+            const newIdeas = surpriseIdeas
+                .filter(idea => !existingTitles.has(idea.title))
+                .map((idea, index) => ({
+                    id: Date.now() + index,
+                    title: idea.title,
+                    category: idea.category,
+                    priority: idea.priority,
+                    completed: false
+                }));
+
+            if (newIdeas.length === 0) {
+                alert("Toutes les idées surprenantes sont déjà dans ta liste !");
+                return;
+            }
+
+            tasks = [...newIdeas, ...tasks];
             saveAndRender();
         }
 
-        
+        function toggleTask(id) {
+            tasks = tasks.map(task =>
+                task.id === id ? { ...task, completed: !task.completed } : task
+            );
+            saveAndRender();
+        }
+
         function deleteTask(id) {
             tasks = tasks.filter(task => task.id !== id);
             saveAndRender();
         }
 
+        function clearCompleted() {
+            tasks = tasks.filter(task => !task.completed);
+            saveAndRender();
+        }
+
         function saveAndRender() {
-            localStorage.setItem('my_tasks', JSON.stringify(tasks));
+            localStorage.setItem('smart_dashboard_tasks', JSON.stringify(tasks));
             renderTasks();
         }
 
-       
+        function getFilteredTasks() {
+            if (currentFilter === 'all') return tasks;
+            if (currentFilter === 'active') return tasks.filter(t => !t.completed);
+            if (currentFilter === 'completed') return tasks.filter(t => t.completed);
+            return tasks.filter(t => t.category === currentFilter);
+        }
+
         function renderTasks() {
+            const filtered = getFilteredTasks();
             tasksList.innerHTML = '';
 
-            if (tasks.length === 0) {
-                tasksList.innerHTML = `<li class="empty-state">🎉 Aucune tâche pour le moment. Profite de ton temps libre !</li>`;
+            if (filtered.length === 0) {
+                tasksList.innerHTML = `
+                    <li class="empty-state">
+                        <img src="https://images.unsplash.com/photo-1507525428034-b723cf961d3e?q=80&w=600&auto=format&fit=crop" alt="Détente" class="empty-img">
+                        <p>Aucune tâche ici. Ajoute-en une ou clique sur <strong>"✨ Charger des idées surprenantes"</strong> !</p>
+                    </li>
+                `;
             } else {
-                tasks.forEach(task => {
+                filtered.forEach(task => {
+                    const thumb = categoryImages[task.category] || categoryImages["🎯 Perso"];
                     const li = document.createElement('li');
                     li.className = `task-item ${task.completed ? 'completed' : ''}`;
                     li.innerHTML = `
                         <div class="task-left">
-                            <input type="checkbox" ${task.completed ? 'checked' : ''} onclick="toggleTask(${task.id})">
+                            <input type="checkbox" ${task.completed ? 'checked' : ''} onchange="toggleTask(${task.id})">
+                            <img src="${thumb}" alt="" class="task-thumb">
                             <div>
-                                <span class="task-title">${task.title}</span>
+                                <span class="task-title">${escapeHtml(task.title)}</span>
                                 <div class="task-badges">
                                     <span class="badge cat-badge">${task.category}</span>
                                     <span class="badge prio-badge ${task.priority.toLowerCase()}">${task.priority}</span>
                                 </div>
                             </div>
                         </div>
-                        <button class="delete-btn" onclick="deleteTask(${task.id})">🗑️</button>
+                        <button type="button" class="delete-btn" onclick="deleteTask(${task.id})" title="Supprimer">🗑️</button>
                     `;
                     tasksList.appendChild(li);
                 });
@@ -165,25 +313,25 @@
             updateStats();
         }
 
-       
         function updateStats() {
             const total = tasks.length;
             const completed = tasks.filter(t => t.completed).length;
             const pending = total - completed;
             const percent = total === 0 ? 0 : Math.round((completed / total) * 100);
-        
+
             document.getElementById('total-tasks').innerText = total;
             document.getElementById('completed-tasks').innerText = completed;
             document.getElementById('pending-tasks').innerText = pending;
             document.getElementById('progress-percent').innerText = `${percent}%`;
             document.getElementById('progress-bar').style.width = `${percent}%`;
         }
-        <a href="page2.html" class="btn">
 
-    <options">Cliquez-moi</button>
-       </a>
- </script>
-    
+        function escapeHtml(text) {
+            const div = document.createElement('div');
+            div.textContent = text;
+            return div.innerHTML;
+        }
+    </script>
 
 </body>
 </html>
