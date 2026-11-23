@@ -1,0 +1,260 @@
+:root {
+    --bg-color: #f1f5f9;
+    --card-bg: #ffffff;
+    --primary: #4f46e5;
+    --primary-hover: #4338ca;
+    --text-main: #0f172a;
+    --text-muted: #64748b;
+    --border: #e2e8f0;
+}
+
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    font-family: 'Plus Jakarta Sans', sans-serif;
+    background-color: var(--bg-color);
+    color: var(--text-main);
+    display: flex;
+    justify-content: center;
+    padding: 30px 15px;
+    min-height: 100vh;
+}
+
+.app-container {
+    background-color: var(--card-bg);
+    width: 100%;
+    max-width: 750px;
+    border-radius: 20px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.05);
+    padding: 35px;
+}
+
+/* HEADER & PROGRESSION */
+header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 20px;
+    padding-bottom: 25px;
+    border-bottom: 2px solid var(--border);
+}
+
+h1 {
+    font-size: 1.8rem;
+    font-weight: 800;
+}
+
+.date-text {
+    color: var(--text-muted);
+    font-size: 0.95rem;
+    text-transform: capitalize;
+}
+
+.progress-box {
+    width: 220px;
+}
+
+.progress-info {
+    display: flex;
+    justify-content: space-between;
+    font-size: 0.85rem;
+    margin-bottom: 8px;
+    color: var(--text-muted);
+}
+
+.progress-bar-bg {
+    background-color: #e2e8f0;
+    height: 10px;
+    border-radius: 10px;
+    overflow: hidden;
+}
+
+.progress-bar-fill {
+    background: linear-gradient(90deg, #4f46e5, #06b6d4);
+    height: 100%;
+    width: 0%;
+    transition: width 0.4s ease;
+}
+
+/* FORMULAIRE */
+.add-task-section {
+    margin: 25px 0;
+}
+
+h2 {
+    font-size: 1.2rem;
+    margin-bottom: 15px;
+}
+
+#task-input {
+    width: 100%;
+    padding: 14px 18px;
+    border: 2px solid var(--border);
+    border-radius: 12px;
+    font-size: 1rem;
+    font-family: inherit;
+    margin-bottom: 12px;
+    transition: border-color 0.2s;
+}
+
+#task-input:focus {
+    outline: none;
+    border-color: var(--primary);
+}
+
+.form-row {
+    display: flex;
+    gap: 10px;
+}
+
+select {
+    padding: 10px 14px;
+    border: 2px solid var(--border);
+    border-radius: 10px;
+    font-family: inherit;
+    font-size: 0.9rem;
+    background-color: #fff;
+    cursor: pointer;
+}
+
+.add-btn {
+    background-color: var(--primary);
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 10px;
+    font-family: inherit;
+    font-weight: 700;
+    cursor: pointer;
+    flex-grow: 1;
+    transition: background-color 0.2s;
+}
+
+.add-btn:hover {
+    background-color: var(--primary-hover);
+}
+
+/* STATISTIQUES */
+.stats-row {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 15px;
+    margin-bottom: 30px;
+}
+
+.stat-card {
+    background-color: #f8fafc;
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 15px;
+    text-align: center;
+}
+
+.stat-num {
+    display: block;
+    font-size: 1.5rem;
+    font-weight: 800;
+    color: var(--primary);
+}
+
+.stat-label {
+    font-size: 0.8rem;
+    color: var(--text-muted);
+}
+
+/* LISTE DES TÂCHES */
+.tasks-list {
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.task-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 15px 18px;
+    background-color: #f8fafc;
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    transition: all 0.2s ease;
+}
+
+.task-item:hover {
+    border-color: #cbd5e1;
+}
+
+.task-item.completed {
+    opacity: 0.6;
+    background-color: #f1f5f9;
+}
+
+.task-item.completed .task-title {
+    text-decoration: line-through;
+}
+
+.task-left {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+}
+
+.task-left input[type="checkbox"] {
+    width: 20px;
+    height: 20px;
+    cursor: pointer;
+    accent-color: var(--primary);
+}
+
+.task-title {
+    font-weight: 600;
+    display: block;
+    margin-bottom: 4px;
+}
+
+.task-badges {
+    display: flex;
+    gap: 6px;
+}
+
+.badge {
+    font-size: 0.75rem;
+    padding: 2px 8px;
+    border-radius: 6px;
+    font-weight: 600;
+}
+
+.cat-badge {
+    background-color: #e0e7ff;
+    color: #3730a3;
+}
+
+.prio-badge.basse { background-color: #dcfce7; color: #166534; }
+.prio-badge.moyenne { background-color: #fef9c3; color: #854d0e; }
+.prio-badge.haute { background-color: #fee2e2; color: #991b1b; }
+
+.delete-btn {
+    background: none;
+    border: none;
+    font-size: 1.1rem;
+    cursor: pointer;
+    padding: 5px;
+    opacity: 0.6;
+    transition: opacity 0.2s;
+}
+
+.delete-btn:hover {
+    opacity: 1;
+}
+
+.empty-state {
+    text-align: center;
+    padding: 30px;
+    color: var(--text-muted);
+    font-style: italic;

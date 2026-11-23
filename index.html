@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mon Dashboard & Tâches 🚀</title>
+    <link rel="stylesheet" href="style.css">
+    <!-- Police moderne Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;700;800&display=swap" rel="stylesheet">
+</head>
+<body>    
+    <!--sert a annoncer le dashboard et les taches -->
+
+
+    <div class="app-container">
+        
+       
+        <header>
+            <div>
+                <h1>Mon Dashboard ⚡</h1>
+                <p id="current-date" class="date-text">Lundi 19 Octobre</p>
+            </div>
+            <div class="progress-box">
+                <div class="progress-info">
+                    <span>Progression du jour</span>
+                    <strong id="progress-percent">0%</strong>
+                </div>
+                <div class="progress-bar-bg">
+                    <div id="progress-bar" class="progress-bar-fill"></div>
+                </div>
+            </div>
+    </header>
+ <!--sert a pouvoir voir la progression de la journée avec le % de reussite -->
+        <!-- Formulaire pour ajouter une tâche -->
+        <section class="add-task-section">
+            <h2>Ajouter une nouvelle tâche</h2>
+            <form id="task-form">
+                <input type="text" id="task-input" placeholder="Que dois-tu faire aujourd'hui ?" required>
+                
+                <div class="form-row">
+                    <select id="task-category">
+                        <option value="📚 Cours">📚 Cours</option>
+                        <option value="💻 Code">💻 Code</option>
+                        <option value="🎯 Perso">🎯 Perso</option>
+                    </select>
+<!--divise les taches en 3 catégories en fonction de la catégorie-->
+                    <select id="task-priority">
+                        <option value="Basse">🟢 Basse</option>
+                        <option value="Moyenne" selected>🟡 Moyenne</option>
+                        <option value="Haute">🔴 Haute</option>
+                    </select>
+<!--divise les taches en 3 catégories en fonction du niveau d'importance -->
+                    <button type="submit" class="add-btn">+ Ajouter</button>
+                </div>
+            </form>
+        </section>
+<!--ajouter ne tache -->
+        <!-- Statistiques rapides -->
+        <div class="stats-row">
+            <div class="stat-card">
+                <span class="stat-num" id="total-tasks">0</span>
+                <span class="stat-label">Total Tâches</span>
+            </div>
+            <div class="stat-card">
+                <span class="stat-num" id="completed-tasks">0</span>
+                <span class="stat-label">Terminées</span>
+            </div>
+            <div class="stat-card">
+                <span class="stat-num" id="pending-tasks">0</span>
+                <span class="stat-label">En attente</span>
+            </div>
+        </div>
+
+        <!-- Liste des Tâches -->
+        <section class="tasks-section">
+            <h2>Mes Tâches</h2>
+            <ul id="tasks-list" class="tasks-list">
+                
+            </ul>
+        </section>
+
+    </div>
+<!-- sert a afficher les taches et- la date du jour-->
+    <!-- Script JavaScript interactif avec Sauvegarde Automatique -->
+    <script>
+        
+        const options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
+        document.getElementById('current-date').innerText = new Date().toLocaleDateString('fr-FR', options);
+ <!--affiche la date -->
+       
+        let tasks = JSON.parse(localStorage.getItem('my_tasks')) || [];
+
+        const taskForm = document.getElementById('task-form');
+        const taskInput = document.getElementById('task-input');
+        const taskCategory = document.getElementById('task-category');
+        const taskPriority = document.getElementById('task-priority');
+        const tasksList = document.getElementById('tasks-list');
+
+        
+        renderTasks();
+
+        
+        taskForm.addEventListener('submit', (e) => {
+            e.preventDefault();
+            const newTask = {
+                id: Date.now(),
+                title: taskInput.value.trim(),
+                category: taskCategory.value,
+                priority: taskPriority.value,
+                completed: false
+            };
+
+            tasks.push(newTask);
+            saveAndRender();
+            taskInput.value = '';
+        });
+
+        
+        function toggleTask(id) {
+            tasks = tasks.map(task => {
+                if (task.id === id) task.completed = !task.completed;
+                return task;
+            });
+            saveAndRender();
+        }
+
+        
+        function deleteTask(id) {
+            tasks = tasks.filter(task => task.id !== id);
+            saveAndRender();
+        }
+
+        function saveAndRender() {
+            localStorage.setItem('my_tasks', JSON.stringify(tasks));
+            renderTasks();
+        }
+
+       
+        function renderTasks() {
+            tasksList.innerHTML = '';
+
+            if (tasks.length === 0) {
+                tasksList.innerHTML = `<li class="empty-state">🎉 Aucune tâche pour le moment. Profite de ton temps libre !</li>`;
+            } else {
+                tasks.forEach(task => {
+                    const li = document.createElement('li');
+                    li.className = `task-item ${task.completed ? 'completed' : ''}`;
+                    li.innerHTML = `
+                        <div class="task-left">
+                            <input type="checkbox" ${task.completed ? 'checked' : ''} onclick="toggleTask(${task.id})">
+                            <div>
+                                <span class="task-title">${task.title}</span>
+                                <div class="task-badges">
+                                    <span class="badge cat-badge">${task.category}</span>
+                                    <span class="badge prio-badge ${task.priority.toLowerCase()}">${task.priority}</span>
+                                </div>
+                            </div>
+                        </div>
+                        <button class="delete-btn" onclick="deleteTask(${task.id})">🗑️</button>
+                    `;
+                    tasksList.appendChild(li);
+                });
+            }
+
+            updateStats();
+        }
+
+       
+        function updateStats() {
+            const total = tasks.length;
+            const completed = tasks.filter(t => t.completed).length;
+            const pending = total - completed;
+            const percent = total === 0 ? 0 : Math.round((completed / total) * 100);
+        
+            document.getElementById('total-tasks').innerText = total;
+            document.getElementById('completed-tasks').innerText = completed;
+            document.getElementById('pending-tasks').innerText = pending;
+            document.getElementById('progress-percent').innerText = `${percent}%`;
+            document.getElementById('progress-bar').style.width = `${percent}%`;
+        }
+        <a href="page2.html" class="btn">
+
+    <options">Cliquez-moi</button>
+       </a>
+ </script>
+    
+
+</body>
+</html>
